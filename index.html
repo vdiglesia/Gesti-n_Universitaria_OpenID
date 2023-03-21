@@ -82,9 +82,9 @@
 	<script>
 		// Configuración del cliente OpenID Connect
 		const config = {
-			client_id: 'TU_CLIENT_ID_DE_GOOGLE',
-			client_secret: 'TU_CLIENT_SECRET_DE_GOOGLE',
-			redirect_uri: 'https://TU_DOMINIO/redirect_uri',
+			client_id: '541945320104-94q0blloevdmsvvals7hl37cur8pla9j.apps.googleusercontent.com',
+			client_secret: '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',
+			redirect_uri: 'https://vdiglesia.github.io/Gesti-n_Universitaria_OpenID/congrats.html',
 			scope: 'openid email profile'
 		};
 
@@ -116,8 +116,6 @@
 		if (code) {
 			const tokenSet = await client.callback(config.redirect_uri, { code });
 			const userInfo = await client.userinfo(tokenSet.access_token);
-
-			// Aquí puedes guardar la información del usuario en tu base de datos o utilizarla para autenticar al usuario en tu aplicación
 			console.log(userInfo);
 		}
 	</script>
