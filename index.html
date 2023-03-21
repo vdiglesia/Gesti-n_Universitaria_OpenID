@@ -76,7 +76,7 @@
 
 		<input type="submit" value="Registrarse">
 	</form>
-	<a href="/auth/google" style="display: block; width: 200px; margin: auto; margin-top: 20px; background-color: #dd4b39; color: white; text-align: center; padding: 10px; border-radius: 3px; text-decoration: none;">Iniciar sesión con Google</a>
+	<a href="https://accounts.google.com/o/oauth2/v2/auth" style="display: block; width: 200px; margin: auto; margin-top: 20px; background-color: #dd4b39; color: white; text-align: center; padding: 10px; border-radius: 3px; text-decoration: none;">Iniciar sesión con Google</a>
 
 	<script src="https://cdn.jsdelivr.net/npm/openid-client@4.1.0/dist/openid-client.min.js"></script>
 	<script>
@@ -108,7 +108,7 @@
 		});
 
 		// Redirección del usuario a la URL de autorización de Google
-		document.querySelector('a[href="/auth/google"]').href = authorizationUrl;
+		document.querySelector('a[href="https://accounts.google.com/o/oauth2/v2/auth"]').href = authorizationUrl;
 
 		// Procesamiento de la respuesta de Google en la URL de redirect_uri
 		const params = new URLSearchParams(window.location.search);
