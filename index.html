@@ -96,7 +96,7 @@
 			client_secret: config.client_secret
 		}).Client({
 			redirect_uris: [config.redirect_uri],
-			response_types: ['code'],
+			response_type: ['code'],
 			id_token_signed_response_alg: 'HS256',
 			scope: config.scope
 		});
