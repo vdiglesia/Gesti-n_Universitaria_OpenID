@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Aplicación de Estudiantes</title>
+	<style>
+		body {
+			background-color: #0080ff;
+			color: rgb(0, 0, 0);
+			font-family: Arial, sans-serif;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			width: 50%;
+			margin: auto;
+			background-color: white;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+		}
+
+		label {
+			display: block;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+
+		input[type="text"],
+		input[type="email"],
+		input[type="password"],
+		select {
+			width: 100%;
+			padding: 10px;
+			border: none;
+			border-radius: 3px;
+			margin-bottom: 10px;
+			box-sizing: border-box;
+		}
+
+		input[type="submit"] {
+			background-color: #0080ff;
+			color: white;
+			padding: 10px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<h1>Aplicación de Estudiantes</h1>
+	<form>
+		
+		<label for="nombre">Nombre:</label>
+		<input type="text" id="nombre" name="nombre" required>
+
+		<label for="apellidos">Apellidos:</label>
+		<input type="text" id="apellidos" name="apellidos" required>
+
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required>
+
+		<label for="password">Contraseña:</label>
+		<input type="password" id="password" name="password" required>
+
+		<label for="universidad">Universidad:</label>
+		<select id="universidad" name="universidad" required>
+			<option value="Seleccione una universidad">Seleccione una universidad</option>
+			<option value="Universidad Politécnica de Madrid">Universidad Politécnica de Madrid</option>
+			<option value="Universidad de Burgos">Universidad de Burgos</option>
+			<option value="Universidad Carlos III">Universidad Carlos III</option>
+		</select>
+
+		<input type="submit" value="Registrarse">
+	</form>
+	<a href="/auth/google" style="display: block; width: 200px; margin: auto; margin-top: 20px; background-color: #dd4b39; color: white; text-align: center; padding: 10px; border-radius: 3px; text-decoration: none;">Iniciar sesión con Google</a>
+
+	<script src="https://cdn.jsdelivr.net/npm/openid-client@4.1.0/dist/openid-client.min.js"></script>
+	<script>
+		// Configuración del cliente OpenID Connect
+		const config = {
+			client_id: 'TU_CLIENT_ID_DE_GOOGLE',
+			client_secret: 'TU_CLIENT_SECRET_DE_GOOGLE',
+			redirect_uri: 'https://TU_DOMINIO/redirect_uri',
+			scope: 'openid email profile'
+		};
+
+		// Creación del cliente OpenID Connect
+		const issuer = 'https://accounts.google.com';
+		const client = new Issuer({
+			issuer,
+			client_id: config.client_id,
+			client_secret: config.client_secret
+		}).Client({
+			redirect_uris: [config.redirect_uri],
+			response_types: ['code'],
+			id_token_signed_response_alg: 'HS256',
+			scope: config.scope
+		});
+
+		// Obtención de la URL de autorización de Google
+		const authorizationUrl = client.authorizationUrl({
+			redirect_uri: config.redirect_uri,
+			scope: config.scope
+		});
+
+		// Redirección del usuario a la URL de autorización de Google
+		document.querySelector('a[href="/auth/google"]').href = authorizationUrl;
+
+		// Procesamiento de la respuesta de Google en la URL de redirect_uri
+		const params = new URLSearchParams(window.location.search);
+		const code = params.get('code');
+		if (code) {
+			const tokenSet = await client.callback(config.redirect_uri, { code });
+			const userInfo = await client.userinfo(tokenSet.access_token);
+
+			// Aquí puedes guardar la información del usuario en tu base de datos o utilizarla para autenticar al usuario en tu aplicación
+			console.log(userInfo);
+		}
+	</script>
+</body>
+</html>
